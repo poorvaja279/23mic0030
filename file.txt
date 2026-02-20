@@ -1,0 +1,236 @@
+SonarQube Installation and Configuration
+
+(Step-by-Step Explanation)
+
+1. Installing SonarQube
+
+Before installing SonarQube, we need to ensure that the system meets the required prerequisites.
+
+Step 1: Install Java (Mandatory Requirement)
+
+SonarQube runs on Java. It requires Java 17 or Java 21 (LTS version recommended).
+
+Download JDK 17 from Oracle or OpenJDK.
+
+Install it normally.
+
+After installation, set environment variables:
+
+Open System Properties → Environment Variables
+
+Create a new variable:
+
+Variable Name: JAVA_HOME
+
+Variable Value: Path of JDK (example: C:\Program Files\Java\jdk-17)
+
+Edit the Path variable and add:
+
+%JAVA_HOME%\bin
+
+Verify installation by typing in Command Prompt:
+
+java -version
+
+If Java version appears, installation is successful.
+
+Step 2: Download SonarQube
+
+Visit the official SonarQube website.
+
+Download SonarQube Community Edition (ZIP version).
+
+Extract the ZIP file to a folder like:
+
+C:\sonarqube
+Step 3: Start SonarQube Server
+
+Open the extracted SonarQube folder.
+
+Navigate to:
+
+sonarqube\bin\windows-x86-64
+
+Double-click on:
+
+StartSonar.bat
+
+A command window will open. Wait until you see a message indicating that SonarQube has started successfully.
+
+Step 4: Access SonarQube in Browser
+
+Open a browser and type:
+
+http://localhost:9000
+
+Default login credentials:
+
+Username: admin
+
+Password: admin
+
+After logging in, it will ask you to change the password.
+
+At this stage, SonarQube server installation is complete.
+
+2. Installation of SonarScanner CLI
+
+SonarScanner is used to analyze the source code and send the analysis results to the SonarQube server.
+
+Step 1: Download SonarScanner CLI
+
+Download SonarScanner CLI (ZIP version) from the official website.
+
+Extract it to a folder such as:
+
+C:\sonarscanner
+Step 2: Set Environment Variables
+
+Open Environment Variables.
+
+Create a new system variable:
+
+Variable Name: SONAR_SCANNER_HOME
+
+Variable Value: Path where SonarScanner is extracted.
+
+Edit the Path variable and add:
+
+%SONAR_SCANNER_HOME%\bin
+Step 3: Verify Installation
+
+Open Command Prompt and type:
+
+sonar-scanner -v
+
+If version details are displayed, SonarScanner is installed correctly.
+
+3. Configuring SonarQube for a Project
+
+Now we need to connect a project to SonarQube for code analysis.
+
+Step 1: Create a Project in SonarQube
+
+Login to SonarQube dashboard (localhost:9000).
+
+Click on Create Project.
+
+Choose Manual setup.
+
+Enter:
+
+Project Key
+
+Project Name
+
+Generate a Token.
+
+Copy and save the token securely (it will not be shown again).
+
+Step 2: Create Configuration File
+
+Inside your project root directory, create a file named:
+
+sonar-project.properties
+
+Add the following content:
+
+sonar.projectKey=your_project_key
+sonar.projectName=YourProjectName
+sonar.projectVersion=1.0
+sonar.sources=src
+sonar.host.url=http://localhost:9000
+sonar.login=your_generated_token
+
+This file tells SonarScanner how to connect to the SonarQube server and which source files to analyze.
+
+Step 3: Run SonarScanner
+
+Open Command Prompt.
+
+Navigate to your project folder:
+
+cd your_project_folder
+
+Run:
+
+sonar-scanner
+
+If the analysis is successful, the console will show a success message.
+
+Refresh SonarQube dashboard to see:
+
+Bugs
+
+Vulnerabilities
+
+Code Smells
+
+Coverage details
+
+4. Setting Up SonarQube as a System Service
+
+This ensures SonarQube starts automatically when the system boots.
+
+On Windows (Using NSSM)
+Step 1: Download NSSM (Non-Sucking Service Manager)
+
+Download and extract NSSM.
+
+Step 2: Install SonarQube as a Service
+
+Open Command Prompt as Administrator.
+
+Run:
+
+nssm install SonarQube
+
+In the popup window:
+
+Set path to:
+
+C:\sonarqube\bin\windows-x86-64\StartSonar.bat
+
+Click Install Service.
+
+Step 3: Start Service
+
+Run:
+
+net start SonarQube
+
+Now SonarQube will run as a Windows service.
+
+On Linux (Using Systemd)
+Step 1: Create Service File
+sudo nano /etc/systemd/system/sonarqube.service
+
+Add the service configuration for starting and stopping SonarQube.
+
+Step 2: Enable Service
+sudo systemctl enable sonarqube
+Step 3: Start Service
+sudo systemctl start sonarqube
+
+Check status:
+
+sudo systemctl status sonarqube
+Important Points for Viva / Seminar
+
+SonarQube is a static code analysis tool.
+
+It improves code quality and security.
+
+It detects:
+
+Bugs
+
+Vulnerabilities
+
+Code smells
+
+It uses Quality Gates to determine whether code passes standards.
+
+SonarScanner sends analysis results to the SonarQube server.
+
+Java is mandatory to run SonarQube.
